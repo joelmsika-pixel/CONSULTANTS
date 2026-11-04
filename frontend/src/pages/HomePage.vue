@@ -468,8 +468,8 @@ onUnmounted(() => {
           CLM Consultants provides expert consulting, research and digital solutions to help organizations and communities achieve sustainable growth and development.
         </p>
         <div class="mt-8 flex flex-wrap gap-3">
-          <RouterLink class="rounded-md bg-brand px-5 py-3 text-sm font-bold text-white transition hover:bg-brand-dark" to="/services">
-            Explore Our Services
+          <RouterLink class="rounded-md bg-brand px-5 py-3 text-sm font-bold text-white transition hover:bg-brand-dark" to="/forum">
+            Join Forum
           </RouterLink>
           <RouterLink class="button-animated rounded-md border border-white/70 px-5 py-3 text-sm font-bold text-white" to="/contact">
             Get in Touch
