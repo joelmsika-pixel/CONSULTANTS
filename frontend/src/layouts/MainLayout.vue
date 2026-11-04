@@ -124,25 +124,72 @@ async function logout() {
       <slot />
     </main>
 
-    <footer class="mt-20 bg-navy text-white">
-      <div class="mx-auto grid max-w-7xl gap-10 px-5 py-14 md:grid-cols-[1fr_auto] md:items-end lg:px-8">
-        <div>
-          <p class="text-xs font-bold tracking-[0.2em] text-emerald-300">CLM CONSULTANTS</p>
-          <p class="mt-4 max-w-xl text-sm leading-7 text-white/70">
-            Independent thinking, practical collaboration, and a focus on lasting progress.
-          </p>
+    <div class="bg-paper pt-8">
+      <footer class="relative overflow-hidden bg-[#041d3b] text-white">
+        <div class="h-1 bg-gradient-to-r from-brand via-sky-400 to-emerald-300"></div>
+        <div class="mx-auto grid max-w-7xl gap-8 px-5 py-8 sm:grid-cols-2 sm:gap-x-10 sm:gap-y-8 sm:py-10 lg:grid-cols-[1.25fr_1fr_0.8fr] lg:gap-12 lg:px-8 lg:py-10">
+          <section>
+            <h2 class="text-sm font-bold tracking-[0.16em] text-white">CLM CONSULTANTS</h2>
+            <p class="mt-5 max-w-lg text-sm leading-7 text-slate-300">
+              Our research services help businesses and organizations collect quality data, conduct advanced data analysis and interpret the results, develop business and program data demand and use, and identify promising practices to nurture into best practices.
+            </p>
+          </section>
+
+          <section>
+            <h2 class="text-sm font-bold tracking-[0.16em] text-white">OFFICE CONTACTS</h2>
+            <address class="mt-5 space-y-4 text-sm not-italic text-slate-300">
+              <p class="flex items-start gap-3">
+                <svg class="mt-0.5 h-5 w-5 shrink-0 text-sky-300" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                  <path d="M19 10c0 5-7 11-7 11S5 15 5 10a7 7 0 1 1 14 0Z" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round" />
+                  <circle cx="12" cy="10" r="2.2" stroke="currentColor" stroke-width="1.7" />
+                </svg>
+                <span>Dar es Salaam, Tanzania</span>
+              </p>
+              <p class="flex items-start gap-3">
+                <svg class="mt-0.5 h-5 w-5 shrink-0 text-sky-300" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                  <path d="M7.2 3.5h2.5l1.2 4.1-1.8 1.8a15 15 0 0 0 5.5 5.5l1.8-1.8 4.1 1.2v2.5a2 2 0 0 1-2.2 2A16.3 16.3 0 0 1 5.2 5.7a2 2 0 0 1 2-2.2Z" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" />
+                </svg>
+                <span class="flex flex-col gap-2">
+                  <a class="transition-colors hover:text-white" href="tel:+255765785383">+255 765 785 383</a>
+                  <a class="transition-colors hover:text-white" href="tel:+255734766128">+255 734 766 128</a>
+                </span>
+              </p>
+              <p class="flex items-start gap-3">
+                <svg class="mt-0.5 h-5 w-5 shrink-0 text-sky-300" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                  <rect x="3.5" y="5" width="17" height="14" rx="2" stroke="currentColor" stroke-width="1.7" />
+                  <path d="m4.5 7 7.5 6 7.5-6" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" />
+                </svg>
+                <span class="flex min-w-0 flex-col gap-2">
+                  <a class="break-all transition-colors hover:text-white" href="mailto:info@clmconsultants.co.tz">info@clmconsultants.co.tz</a>
+                  <a class="break-all transition-colors hover:text-white" href="mailto:pshoki@clmconsultants.co.tz">pshoki@clmconsultants.co.tz</a>
+                  <a class="break-all transition-colors hover:text-white" href="mailto:shokipn2000@gmail.com">shokipn2000@gmail.com</a>
+                </span>
+              </p>
+            </address>
+          </section>
+
+          <nav aria-label="Useful links">
+            <h2 class="text-sm font-bold tracking-[0.16em] text-white">USEFUL LINKS</h2>
+            <ul class="mt-5 grid grid-cols-2 gap-x-5 gap-y-3 text-sm text-slate-300 sm:grid-cols-1">
+              <li><RouterLink class="transition-colors hover:text-sky-200" to="/">Home</RouterLink></li>
+              <li><RouterLink class="transition-colors hover:text-sky-200" to="/about">Who we are</RouterLink></li>
+              <li><RouterLink class="transition-colors hover:text-sky-200" to="/services">What we do</RouterLink></li>
+              <li><RouterLink class="transition-colors hover:text-sky-200" to="/news">News</RouterLink></li>
+              <li><RouterLink class="transition-colors hover:text-sky-200" to="/faq">FAQs</RouterLink></li>
+              <li><RouterLink class="transition-colors hover:text-sky-200" to="/contact">Contact us</RouterLink></li>
+              <li><RouterLink class="transition-colors hover:text-sky-200" to="/consultation">Request consultation</RouterLink></li>
+              <li><RouterLink class="transition-colors hover:text-sky-200" to="/forum">Forum</RouterLink></li>
+            </ul>
+          </nav>
+
+          <div class="border-t border-white/10 pt-4 sm:col-span-2 lg:col-span-3">
+            <p class="text-xs text-slate-400">
+              © {{ new Date().getFullYear() }} CLM Consultants. All rights reserved.
+            </p>
+          </div>
         </div>
-        <div class="flex flex-wrap gap-x-6 gap-y-3 text-sm text-white/80">
-          <RouterLink class="hover:text-white" to="/about">About</RouterLink>
-          <RouterLink class="hover:text-white" to="/services">Services</RouterLink>
-          <RouterLink class="hover:text-white" to="/contact">Contact</RouterLink>
-          <RouterLink class="hover:text-white" to="/forum">Forum</RouterLink>
-        </div>
-        <p class="border-t border-white/15 pt-5 text-xs text-white/50 md:col-span-2">
-          © {{ new Date().getFullYear() }} CLM Consultants. All rights reserved.
-        </p>
-      </div>
-    </footer>
+      </footer>
+    </div>
   </div>
 </template>
 

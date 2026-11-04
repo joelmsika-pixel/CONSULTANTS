@@ -1,10 +1,9 @@
 <script setup>
 import { reactive, ref } from 'vue'
 import PageBanner from '../components/PageBanner.vue'
-import consultingTeam from '../assets/consulting-team.jpg'
 import { apiRequest } from '../services/api'
 
-const form = reactive({ name: '', email: '', phone: '', subject: '', message: '', company_website: '' })
+const form = reactive({ first_name: '', last_name: '', email: '', phone: '', message: '', company_website: '' })
 const errors = ref({})
 const error = ref('')
 const reference = ref('')
@@ -17,9 +16,19 @@ async function submit() {
   submitting.value = true
 
   try {
-    const response = await apiRequest('/contact-messages', { method: 'POST', body: { ...form } })
+    const response = await apiRequest('/contact-messages', {
+      method: 'POST',
+      body: {
+        name: `${form.first_name} ${form.last_name}`.trim(),
+        email: form.email,
+        phone: form.phone,
+        subject: 'Contact Us Inquiry',
+        message: form.message,
+        company_website: form.company_website,
+      },
+    })
     reference.value = response.data.reference
-    Object.assign(form, { name: '', email: '', phone: '', subject: '', message: '', company_website: '' })
+    Object.assign(form, { first_name: '', last_name: '', email: '', phone: '', message: '', company_website: '' })
   } catch (requestError) {
     error.value = requestError.message
     errors.value = requestError.errors
@@ -31,56 +40,112 @@ async function submit() {
 
 <template>
   <div>
-  <PageBanner title="Contact Us" breadcrumb="Contact" subtitle="We are ready to hear from you. Reach out to us through any of the channels below." />
-  <section class="bg-white">
-    <div class="mx-auto grid max-w-7xl gap-8 px-5 py-12 md:grid-cols-[0.85fr_1.15fr] md:py-16 lg:px-8">
-      <div>
-        <p class="text-xs font-bold uppercase tracking-[0.2em] text-brand">Get in touch</p>
-        <h2 class="mt-3 text-3xl font-bold leading-tight tracking-tight text-ink md:text-4xl">Let's start with a conversation.</h2>
-        <p class="mt-4 max-w-md leading-7 text-muted">We are always ready to hear from you. Tell us a little about what you are working on, and our team will follow up.</p>
-        <div class="mt-6 border-t border-line pt-5">
-          <p class="text-sm font-semibold text-ink">Prefer a focused conversation?</p>
-          <RouterLink class="mt-2 inline-flex text-sm font-bold text-brand hover:text-brand-dark" to="/consultation">Request Consultation <span class="ml-2" aria-hidden="true">→</span></RouterLink>
+  <PageBanner
+    title="Contact Us"
+    subtitle="We are ready to hear from you. Reach out to us through any of the channels below."
+    background-image="/181231.jpg"
+    large
+    full-background
+    :show-breadcrumb="false"
+  />
+  <section class="bg-paper px-5 py-8 md:py-12 lg:px-8">
+    <div class="mx-auto grid max-w-7xl items-start gap-7 lg:grid-cols-[0.9fr_1.1fr] lg:gap-10">
+      <div class="pt-2">
+        <h2 class="mt-5 max-w-xl text-3xl font-bold leading-tight tracking-tight text-ink md:text-4xl">
+          We’d love to hear from you.
+        </h2>
+        <div class="mt-5 space-y-4 text-sm leading-7 text-muted md:text-base">
+          <p>
+            Welcome to the <span class="font-semibold text-ink">Contact Us</span> page of CLM Consultants! We’re thrilled to have you here and are eager to assist you with any questions, inquiries, or support you may need.
+          </p>
+          <p>
+            Looking to <span class="font-semibold text-ink">start a new project</span>, need <span class="font-semibold text-ink">expert consultation</span>, or simply want to learn more about our services? You’re in the right place.
+          </p>
         </div>
-        <img :src="consultingTeam" alt="CLM colleagues working together" class="mt-6 aspect-[16/9] w-full rounded-xl object-cover" loading="lazy">
+        <div class="mt-5 flex gap-3 rounded-xl border border-brand/10 bg-white p-4 shadow-sm">
+          <span class="mt-0.5 flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-brand-soft text-brand" aria-hidden="true">
+            <svg class="h-4 w-4" viewBox="0 0 24 24" fill="none">
+              <path d="M20 11.5a7.5 7.5 0 0 1-7.5 7.5H7l-4 2v-6a7.5 7.5 0 1 1 17-3.5Z" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round" />
+              <path d="M8 11h8M8 14h5" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" />
+            </svg>
+          </span>
+          <p class="text-sm leading-6 text-muted">
+            Our team is dedicated to providing <span class="font-semibold text-ink">prompt, personalized assistance</span>. Don’t hesitate to reach out—we look forward to connecting with you!
+          </p>
+        </div>
       </div>
 
-      <form class="content-card p-6 md:p-8" @submit.prevent="submit">
-        <div v-if="reference" class="mb-6 rounded-xl border border-emerald-200 bg-emerald-50 p-4 text-sm text-emerald-900" role="status">
-          Thanks — your message has been received. Reference: <span class="font-mono font-semibold">{{ reference }}</span>
+      <form class="w-full max-w-lg justify-self-end overflow-hidden rounded-2xl border border-line bg-white shadow-[0_12px_36px_rgba(18,53,95,0.09)]" @submit.prevent="submit">
+        <div class="border-b border-line bg-gradient-to-r from-white to-brand-soft/60 px-5 py-3.5">
+          <p class="text-xs font-bold uppercase tracking-[0.18em] text-brand">Send us a message</p>
+          <h3 class="mt-1 text-lg font-bold tracking-tight text-ink">Let’s talk about your needs</h3>
         </div>
-        <p v-if="error" class="mb-6 rounded-xl border border-red-200 bg-red-50 p-4 text-sm text-red-800" role="alert">{{ error }}</p>
 
-        <div class="grid gap-5 sm:grid-cols-2">
-          <label class="field-label">Your name
-            <input v-model="form.name" class="field-input" autocomplete="name" required maxlength="200" />
-            <span v-if="errors.name" class="field-error">{{ errors.name[0] }}</span>
+        <div class="p-4 md:p-5">
+          <div v-if="reference" class="mb-3 flex items-start gap-3 rounded-xl border border-emerald-200 bg-emerald-50 p-3 text-sm text-emerald-900" role="status">
+            <svg class="mt-0.5 h-5 w-5 shrink-0" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="m5 12 4 4L19 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" /></svg>
+            <p>Thanks — your message has been received. Reference: <span class="font-mono font-semibold">{{ reference }}</span></p>
+          </div>
+          <p v-if="error" class="mb-3 rounded-xl border border-red-200 bg-red-50 p-3 text-sm text-red-800" role="alert">{{ error }}</p>
+
+          <div class="grid gap-x-3 gap-y-3 sm:grid-cols-2">
+            <label class="field-label">
+              <span class="field-control">
+                <svg class="field-icon" viewBox="0 0 24 24" fill="none" aria-hidden="true"><circle cx="12" cy="8" r="3.5" stroke="currentColor" stroke-width="1.7" /><path d="M5 20a7 7 0 0 1 14 0" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" /></svg>
+                <input v-model="form.first_name" class="field-input" autocomplete="given-name" placeholder=" " required maxlength="100" />
+                <span class="field-floating-label">First Name</span>
+              </span>
+              <span v-if="errors.name" class="field-error">{{ errors.name[0] }}</span>
+            </label>
+            <label class="field-label">
+              <span class="field-control">
+                <svg class="field-icon" viewBox="0 0 24 24" fill="none" aria-hidden="true"><circle cx="12" cy="8" r="3.5" stroke="currentColor" stroke-width="1.7" /><path d="M5 20a7 7 0 0 1 14 0" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" /></svg>
+                <input v-model="form.last_name" class="field-input" autocomplete="family-name" placeholder=" " required maxlength="100" />
+                <span class="field-floating-label">Last Name</span>
+              </span>
+            </label>
+            <label class="field-label">
+              <span class="field-control">
+                <svg class="field-icon" viewBox="0 0 24 24" fill="none" aria-hidden="true"><rect x="3.5" y="5" width="17" height="14" rx="2" stroke="currentColor" stroke-width="1.7" /><path d="m4.5 7 7.5 6 7.5-6" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" /></svg>
+                <input v-model="form.email" class="field-input" type="email" autocomplete="email" placeholder=" " required maxlength="255" />
+                <span class="field-floating-label">Email address</span>
+              </span>
+              <span v-if="errors.email" class="field-error">{{ errors.email[0] }}</span>
+            </label>
+            <label class="field-label">
+              <span class="field-control">
+                <svg class="field-icon" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M7.2 3.5h2.5l1.2 4.1-1.8 1.8a15 15 0 0 0 5.5 5.5l1.8-1.8 4.1 1.2v2.5a2 2 0 0 1-2.2 2A16.3 16.3 0 0 1 5.2 5.7a2 2 0 0 1 2-2.2Z" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" /></svg>
+                <input v-model="form.phone" class="field-input" type="tel" autocomplete="tel" placeholder=" " required maxlength="40" />
+                <span class="field-floating-label">Phone Number</span>
+              </span>
+              <span v-if="errors.phone" class="field-error">{{ errors.phone[0] }}</span>
+            </label>
+            <label class="field-label">
+              <span class="field-control field-control--textarea">
+                <svg class="field-icon field-icon--textarea" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M5 5h14v11H9l-4 3V5Z" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round" /><path d="M8 9h8M8 12h6" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" /></svg>
+                <textarea v-model="form.message" class="field-input field-textarea" placeholder=" " required minlength="10" maxlength="5000"></textarea>
+                <span class="field-floating-label field-floating-label--textarea">Your Message</span>
+              </span>
+              <span v-if="errors.message" class="field-error">{{ errors.message[0] }}</span>
+            </label>
+          </div>
+          <p v-if="errors.subject" class="mt-4 text-sm text-red-700">{{ errors.subject[0] }}</p>
+          <label class="pointer-events-none absolute -left-[10000px] h-px w-px overflow-hidden" aria-hidden="true">
+            Leave this field empty
+            <input v-model="form.company_website" tabindex="-1" autocomplete="off" />
           </label>
-          <label class="field-label">Email address
-            <input v-model="form.email" class="field-input" type="email" autocomplete="email" required maxlength="255" />
-            <span v-if="errors.email" class="field-error">{{ errors.email[0] }}</span>
-          </label>
-          <label class="field-label">Phone <span class="font-normal text-muted">(optional)</span>
-            <input v-model="form.phone" class="field-input" type="tel" autocomplete="tel" maxlength="40" />
-            <span v-if="errors.phone" class="field-error">{{ errors.phone[0] }}</span>
-          </label>
-          <label class="field-label">Subject
-            <input v-model="form.subject" class="field-input" required maxlength="200" />
-            <span v-if="errors.subject" class="field-error">{{ errors.subject[0] }}</span>
-          </label>
-          <label class="field-label sm:col-span-2">How can we help?
-            <textarea v-model="form.message" class="field-input min-h-36 resize-y" required minlength="10" maxlength="5000"></textarea>
-            <span v-if="errors.message" class="field-error">{{ errors.message[0] }}</span>
-          </label>
+          <button class="button-quiet contact-submit mt-4" type="submit" :disabled="submitting">
+            <span class="svg-wrapper-1" aria-hidden="true">
+              <span class="svg-wrapper">
+                <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true">
+                  <path fill="none" d="M0 0h24v24H0z"></path>
+                  <path fill="currentColor" d="M1.946 9.315c-.522-.174-.527-.455.01-.634l19.087-6.362c.529-.176.832.12.684.638l-5.454 19.086c-.15.529-.455.547-.679.045L12 14l6-8-8 6-8.054-2.685z"></path>
+                </svg>
+              </span>
+            </span>
+            <span>{{ submitting ? 'Sending…' : 'Send message' }}</span>
+          </button>
         </div>
-        <label class="pointer-events-none absolute -left-[10000px] h-px w-px overflow-hidden" aria-hidden="true">
-          Leave this field empty
-          <input v-model="form.company_website" tabindex="-1" autocomplete="off" />
-        </label>
-        <button class="mt-6 rounded-md bg-brand px-6 py-3 text-sm font-bold text-white transition hover:bg-brand-dark disabled:cursor-not-allowed disabled:opacity-60" type="submit" :disabled="submitting">
-          {{ submitting ? 'Sending…' : 'Send message' }}
-        </button>
-        <p class="mt-4 text-xs leading-5 text-muted">Please do not include passwords or sensitive personal information in this form.</p>
       </form>
     </div>
   </section>
@@ -91,35 +156,210 @@ async function submit() {
 .field-label {
   display: flex;
   flex-direction: column;
-  gap: 0.5rem;
+  gap: 0.3rem;
   color: var(--color-ink);
   font-size: 0.875rem;
   font-weight: 600;
 }
 
+.field-control {
+  position: relative;
+  display: block;
+  min-width: 0;
+  border-radius: 0;
+}
+
+.field-floating-label {
+  position: absolute;
+  top: 50%;
+  left: 2.5rem;
+  z-index: 1;
+  max-width: calc(100% - 3.25rem);
+  overflow: hidden;
+  color: var(--color-muted);
+  font-size: 0.875rem;
+  font-weight: 400;
+  pointer-events: none;
+  padding: 0 0.25rem;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  transform: translateY(-50%);
+  transform-origin: left center;
+  transition: top 180ms ease, color 180ms ease, font-size 180ms ease, background-color 180ms ease;
+}
+
+.field-input:focus + .field-floating-label,
+.field-input:not(:placeholder-shown) + .field-floating-label {
+  top: 0.38rem;
+  color: var(--color-brand-dark);
+  font-size: 0.67rem;
+  font-weight: 600;
+  line-height: 1;
+  transform: none;
+}
+
+.field-control:focus-within .field-floating-label {
+  background: #fff;
+}
+
+.field-control:not(:focus-within) .field-input:not(:placeholder-shown) + .field-floating-label {
+  background: #f7f9ff;
+}
+
+.field-icon {
+  position: absolute;
+  top: 50%;
+  left: 0.9rem;
+  width: 1.15rem;
+  height: 1.15rem;
+  color: royalblue;
+  pointer-events: none;
+  transform: translateY(-50%);
+}
+
 .field-input {
   width: 100%;
-  border: 1px solid var(--color-line);
-  border-radius: 0.75rem;
-  background: #fff;
-  padding: 0.75rem 1rem;
+  min-height: 3.25rem;
+  border: 1px solid #b8c6f2;
+  border-radius: 0;
+  background: #f7f9ff;
+  padding: 1.15rem 0.8rem 0.35rem 2.5rem;
   color: var(--color-ink);
   font-size: 0.875rem;
   font-weight: 400;
+  transition: border-color 150ms ease, box-shadow 150ms ease, background-color 150ms ease;
 }
 
-.field-input::placeholder {
-  color: var(--color-muted);
+.field-control:focus-within .field-icon {
+  color: var(--color-brand-dark);
 }
 
 .field-input:focus {
-  border-color: var(--color-brand);
-  outline: 2px solid transparent;
+  border-color: var(--color-brand-dark);
+  outline: none;
+  background: #fff;
+  box-shadow: none;
+}
+
+.field-control--textarea {
+  display: flex;
+}
+
+.field-icon--textarea {
+  top: 1rem;
+  transform: none;
+}
+
+.field-floating-label--textarea {
+  top: 1.1rem;
+  transform: none;
+}
+
+.field-textarea:focus + .field-floating-label--textarea,
+.field-textarea:not(:placeholder-shown) + .field-floating-label--textarea {
+  top: 0.38rem;
+}
+
+.field-textarea {
+  min-height: 6rem;
+  resize: vertical;
+  padding-top: 1.45rem;
+  padding-bottom: 0.85rem;
 }
 
 .field-error {
   color: #b91c1c;
   font-size: 0.75rem;
   font-weight: 500;
+}
+
+.contact-submit {
+  display: flex;
+  align-items: center;
+  overflow: hidden;
+  border: 0;
+  border-radius: 0;
+  background: royalblue;
+  padding: 0.55em 0.85em 0.55em 0.75em;
+  color: #fff;
+  font-family: inherit;
+  font-size: 0.875rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: background-color 200ms ease, transform 200ms ease, opacity 200ms ease;
+}
+
+.contact-submit:hover:not(:disabled) {
+  background: #3156c8;
+}
+
+.contact-submit:active:not(:disabled) {
+  transform: scale(0.95);
+}
+
+.contact-submit:disabled {
+  cursor: wait;
+  opacity: 0.65;
+}
+
+.contact-submit > span:last-child {
+  display: block;
+  margin-left: 0.3em;
+  transition: transform 300ms ease-in-out;
+}
+
+.svg-wrapper-1 {
+  display: block;
+}
+
+.svg-wrapper {
+  display: block;
+  transform-origin: center center;
+}
+
+.svg-wrapper svg {
+  display: block;
+  transition: transform 300ms ease-in-out;
+}
+
+.contact-submit:hover:not(:disabled) .svg-wrapper {
+  animation: fly-1 600ms ease-in-out infinite alternate;
+}
+
+.contact-submit:hover:not(:disabled) .svg-wrapper svg {
+  transform: translateX(1.2em) rotate(45deg) scale(1.1);
+}
+
+.contact-submit:hover:not(:disabled) > span:last-child {
+  transform: translateX(5em);
+}
+
+@keyframes fly-1 {
+  from {
+    transform: translateY(0.1em);
+  }
+
+  to {
+    transform: translateY(-0.1em);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .field-input,
+  .field-floating-label,
+  .contact-submit,
+  .contact-submit > span:last-child,
+  .svg-wrapper svg {
+    transition: none;
+  }
+
+  .contact-submit:hover:not(:disabled) .svg-wrapper {
+    animation: none;
+  }
+
+  .contact-submit:hover:not(:disabled) .svg-wrapper svg,
+  .contact-submit:hover:not(:disabled) > span:last-child {
+    transform: none;
+  }
 }
 </style>
