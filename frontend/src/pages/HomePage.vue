@@ -215,15 +215,25 @@ onMounted(async () => {
 
       const timeline = gsap.timeline({ defaults: { ease: 'power3.out' } })
 
+      timeline.fromTo('.hero-background', {
+        autoAlpha: 0.6,
+        scale: 1.1,
+      }, {
+        autoAlpha: 1,
+        scale: 1,
+        duration: 1.2,
+        ease: 'power2.out',
+      })
       timeline.fromTo('.hero-copy > *', {
         autoAlpha: 0,
-        y: 24,
+        y: 30,
       }, {
         autoAlpha: 1,
         y: 0,
         duration: 0.7,
-        stagger: 0.14,
-      }, '-=0.75')
+        stagger: 0.16,
+        ease: 'power3.out',
+      }, '-=0.55')
     }, heroSection.value)
   }
 
