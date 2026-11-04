@@ -138,34 +138,43 @@ async function logout() {
 
           <section>
             <h2 class="text-sm font-bold tracking-[0.16em] text-white">OFFICE CONTACTS</h2>
-            <address class="mt-5 space-y-4 text-sm not-italic text-slate-300">
-              <p class="flex items-start gap-3">
-                <svg class="mt-0.5 h-5 w-5 shrink-0 text-sky-300" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-                  <path d="M19 10c0 5-7 11-7 11S5 15 5 10a7 7 0 1 1 14 0Z" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round" />
-                  <circle cx="12" cy="10" r="2.2" stroke="currentColor" stroke-width="1.7" />
-                </svg>
-                <span>Dar es Salaam, Tanzania</span>
-              </p>
-              <p class="flex items-start gap-3">
-                <svg class="mt-0.5 h-5 w-5 shrink-0 text-sky-300" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-                  <path d="M7.2 3.5h2.5l1.2 4.1-1.8 1.8a15 15 0 0 0 5.5 5.5l1.8-1.8 4.1 1.2v2.5a2 2 0 0 1-2.2 2A16.3 16.3 0 0 1 5.2 5.7a2 2 0 0 1 2-2.2Z" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" />
-                </svg>
-                <span class="flex flex-col gap-2">
-                  <a class="transition-colors hover:text-white" href="tel:+255765785383">+255 765 785 383</a>
-                  <a class="transition-colors hover:text-white" href="tel:+255734766128">+255 734 766 128</a>
-                </span>
-              </p>
-              <p class="flex items-start gap-3">
-                <svg class="mt-0.5 h-5 w-5 shrink-0 text-sky-300" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-                  <rect x="3.5" y="5" width="17" height="14" rx="2" stroke="currentColor" stroke-width="1.7" />
-                  <path d="m4.5 7 7.5 6 7.5-6" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" />
-                </svg>
-                <span class="flex min-w-0 flex-col gap-2">
-                  <a class="break-all transition-colors hover:text-white" href="mailto:info@clmconsultants.co.tz">info@clmconsultants.co.tz</a>
-                  <a class="break-all transition-colors hover:text-white" href="mailto:pshoki@clmconsultants.co.tz">pshoki@clmconsultants.co.tz</a>
-                  <a class="break-all transition-colors hover:text-white" href="mailto:shokipn2000@gmail.com">shokipn2000@gmail.com</a>
-                </span>
-              </p>
+            <address class="mt-5 space-y-6 text-sm not-italic text-slate-300">
+              <div>
+                <h3 class="mb-2 text-xs font-bold tracking-[0.14em] text-white">VISIT US</h3>
+                <p class="flex items-start gap-3">
+                  <svg class="mt-0.5 h-5 w-5 shrink-0 text-sky-300" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                    <path d="M19 10c0 5-7 11-7 11S5 15 5 10a7 7 0 1 1 14 0Z" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round" />
+                    <circle cx="12" cy="10" r="2.2" stroke="currentColor" stroke-width="1.7" />
+                  </svg>
+                  <span>Dar es Salaam, Tanzania</span>
+                </p>
+              </div>
+              <div>
+                <h3 class="mb-2 text-xs font-bold tracking-[0.14em] text-white">CALL</h3>
+                <p class="flex items-start gap-3">
+                  <svg class="mt-0.5 h-5 w-5 shrink-0 text-sky-300" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                    <path d="M7.2 3.5h2.5l1.2 4.1-1.8 1.8a15 15 0 0 0 5.5 5.5l1.8-1.8 4.1 1.2v2.5a2 2 0 0 1-2.2 2A16.3 16.3 0 0 1 5.2 5.7a2 2 0 0 1 2-2.2Z" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" />
+                  </svg>
+                  <span class="flex flex-col gap-2">
+                    <a class="transition-colors hover:text-white" href="tel:+255765785383">+255 765 785 383</a>
+                    <a class="transition-colors hover:text-white" href="tel:+255734766128">+255 734 766 128</a>
+                  </span>
+                </p>
+              </div>
+              <div>
+                <h3 class="mb-2 text-xs font-bold tracking-[0.14em] text-white">EMAIL</h3>
+                <p class="flex items-start gap-3">
+                  <svg class="mt-0.5 h-5 w-5 shrink-0 text-sky-300" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                    <rect x="3.5" y="5" width="17" height="14" rx="2" stroke="currentColor" stroke-width="1.7" />
+                    <path d="m4.5 7 7.5 6 7.5-6" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" />
+                  </svg>
+                  <span class="flex min-w-0 flex-col gap-2">
+                    <a class="break-all transition-colors hover:text-white" href="mailto:info@clmconsultants.co.tz">info@clmconsultants.co.tz</a>
+                    <a class="break-all transition-colors hover:text-white" href="mailto:pshoki@clmconsultants.co.tz">pshoki@clmconsultants.co.tz</a>
+                    <a class="break-all transition-colors hover:text-white" href="mailto:shokipn2000@gmail.com">shokipn2000@gmail.com</a>
+                  </span>
+                </p>
+              </div>
             </address>
           </section>
 
