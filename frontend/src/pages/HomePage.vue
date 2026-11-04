@@ -36,6 +36,7 @@ const isExploreAnimating = ref(false)
 let parallaxFrame = 0
 let publicationTimer
 let publicationAnimation
+let publicationPointerStart
 let exploreNavigationTimer
 let heroAnimationContext
 let historyAnimationContext
@@ -45,6 +46,33 @@ let melAnimationContext
 function showPublication(index) {
   publicationDirection.value = index > activePublicationIndex.value ? 1 : -1
   activePublicationIndex.value = (index + publications.length) % publications.length
+}
+
+function startPublicationSwipe(event) {
+  if (!event.isPrimary || event.button !== 0) return
+
+  publicationPointerStart = {
+    pointerId: event.pointerId,
+    x: event.clientX,
+    y: event.clientY,
+  }
+  event.currentTarget.setPointerCapture(event.pointerId)
+}
+
+function finishPublicationSwipe(event) {
+  if (!publicationPointerStart || event.pointerId !== publicationPointerStart.pointerId) return
+
+  const deltaX = event.clientX - publicationPointerStart.x
+  const deltaY = event.clientY - publicationPointerStart.y
+  publicationPointerStart = undefined
+
+  if (Math.abs(deltaX) < 48 || Math.abs(deltaX) <= Math.abs(deltaY)) return
+
+  showPublication(activePublicationIndex.value + (deltaX < 0 ? 1 : -1))
+}
+
+function cancelPublicationSwipe() {
+  publicationPointerStart = undefined
 }
 
 function handleExploreClick() {
@@ -344,6 +372,17 @@ onUnmounted(() => {
 </script>
 
 <style scoped>
+.publication-image {
+  cursor: grab;
+  touch-action: pan-y;
+  user-select: none;
+  -webkit-user-drag: none;
+}
+
+.publication-image:active {
+  cursor: grabbing;
+}
+
 .history-visual {
   transform: translate3d(0, var(--history-parallax, 0), 0);
 }
@@ -667,6 +706,10 @@ onUnmounted(() => {
                     loading="eager"
                     decoding="sync"
                     fetchpriority="high"
+                    @pointerdown="startPublicationSwipe"
+                    @pointerup="finishPublicationSwipe"
+                    @pointercancel="cancelPublicationSwipe"
+                    @lostpointercapture="cancelPublicationSwipe"
                   >
                   <div class="absolute inset-x-0 top-0 flex items-center justify-between bg-gradient-to-b from-slate-950/65 to-transparent px-4 pb-8 pt-4 text-xs font-semibold tracking-wide text-white">
                     <span class="rounded-full bg-white/20 px-3 py-1 backdrop-blur-sm">Featured publication</span>

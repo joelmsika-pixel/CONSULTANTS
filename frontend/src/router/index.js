@@ -21,9 +21,9 @@ const router = createRouter({
     { path: '/admin', name: 'admin', component: () => import('../pages/AdminPage.vue') },
     { path: '/admin/content', name: 'admin-content', component: () => import('../pages/AdminContentPage.vue') },
     { path: '/admin/forum', name: 'admin-forum', component: () => import('../pages/ForumModerationPage.vue') },
-    { path: '/login', name: 'login', component: () => import('../pages/LoginPage.vue') },
+    { path: '/login', name: 'login', component: () => import('../pages/LoginPage.vue'), meta: { transition: 'auth-page' } },
     { path: '/forgot-password', name: 'forgot-password', component: () => import('../pages/ForgotPasswordPage.vue') },
-    { path: '/register', name: 'register', component: () => import('../pages/RegisterPage.vue') },
+    { path: '/register', name: 'register', component: () => import('../pages/RegisterPage.vue'), meta: { transition: 'auth-page' } },
     { path: '/:pathMatch(.*)*', name: 'not-found', component: () => import('../pages/NotFoundPage.vue') },
   ],
 })

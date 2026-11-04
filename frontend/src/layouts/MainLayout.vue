@@ -1,8 +1,9 @@
 <script setup>
-import { RouterLink, useRouter } from 'vue-router'
+import { RouterLink, useRoute, useRouter } from 'vue-router'
 import { useAuthStore } from '../stores/auth'
 
 const auth = useAuthStore()
+const route = useRoute()
 const router = useRouter()
 
 async function logout() {
@@ -54,7 +55,7 @@ async function logout() {
 </style>
 
 <template>
-  <div class="min-h-screen pb-[calc(5.5rem+env(safe-area-inset-bottom))] pt-20 sm:pt-[5.5rem] xl:pb-0 xl:pt-0">
+  <div class="min-h-screen pb-[calc(5.5rem+env(safe-area-inset-bottom))] pt-20 sm:pt-[5.5rem] xl:pb-0 xl:pt-0" :class="{ 'bg-paper': route.name === 'register' }">
     <header class="fixed inset-x-0 top-0 z-50 border-b border-white/10 bg-navy/95 text-white shadow-md backdrop-blur-none xl:sticky xl:inset-x-auto xl:backdrop-blur-md">
       <div class="mx-auto flex max-w-7xl items-center justify-between gap-3 px-4 py-3 sm:px-5 lg:px-8">
         <RouterLink class="shrink-0" to="/" aria-label="CLM Consultants home">
@@ -124,7 +125,7 @@ async function logout() {
       <slot />
     </main>
 
-    <div class="bg-paper pt-8">
+    <div v-if="route.name !== 'login' && route.name !== 'register'" class="bg-paper pt-8">
       <footer class="relative overflow-hidden bg-[#041d3b] text-white">
         <div class="h-1 bg-gradient-to-r from-brand via-sky-400 to-emerald-300"></div>
         <div class="mx-auto grid max-w-7xl gap-8 px-5 py-8 sm:grid-cols-2 sm:gap-x-10 sm:gap-y-8 sm:py-10 lg:grid-cols-[1.25fr_1fr_0.8fr] lg:gap-12 lg:px-8 lg:py-10">
