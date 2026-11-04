@@ -1,6 +1,6 @@
 <script setup>
 import { onMounted, onUnmounted, ref } from 'vue'
-import { RouterLink, useRouter } from 'vue-router'
+import { RouterLink } from 'vue-router'
 import { gsap } from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import ServiceCard from '../components/ServiceCard.vue'
@@ -9,7 +9,6 @@ import { coreServices } from '../data/coreServices'
 
 gsap.registerPlugin(ScrollTrigger)
 
-const router = useRouter()
 const heroSection = ref(null)
 const historySection = ref(null)
 const servicesGrid = ref(null)
@@ -32,12 +31,10 @@ const publications = [
 ]
 const activePublicationIndex = ref(0)
 const publicationDirection = ref(1)
-const isExploreAnimating = ref(false)
 let parallaxFrame = 0
 let publicationTimer
 let publicationAnimation
 let publicationPointerStart
-let exploreNavigationTimer
 let heroAnimationContext
 let historyAnimationContext
 let servicesAnimationContext
@@ -73,35 +70,6 @@ function finishPublicationSwipe(event) {
 
 function cancelPublicationSwipe() {
   publicationPointerStart = undefined
-}
-
-function handleExploreClick() {
-  if (
-    !window.matchMedia('(max-width: 767px)').matches
-    || window.matchMedia('(prefers-reduced-motion: reduce)').matches
-  ) {
-    router.push('/news')
-    return
-  }
-
-  if (isExploreAnimating.value) return
-
-  isExploreAnimating.value = true
-  window.clearTimeout(exploreNavigationTimer)
-  exploreNavigationTimer = window.setTimeout(() => {
-    router.push('/news')
-  }, 650)
-}
-
-function handleExploreAnimationEnd(event) {
-  if (
-    !isExploreAnimating.value
-    || event.pseudoElement !== '::before'
-    || event.propertyName !== 'transform'
-  ) return
-
-  window.clearTimeout(exploreNavigationTimer)
-  router.push('/news')
 }
 
 function animatePublicationLeave(element, done) {
@@ -370,7 +338,6 @@ onMounted(async () => {
 
 onUnmounted(() => {
   stopPublicationTimer()
-  window.clearTimeout(exploreNavigationTimer)
   publicationAnimation?.kill()
   window.removeEventListener('scroll', updateHistoryParallax)
   cancelAnimationFrame(parallaxFrame)
@@ -666,10 +633,7 @@ onUnmounted(() => {
           </p>
           <RouterLink
             class="button-animated button-animated-light group mt-4 ml-65 inline-flex w-fit items-center gap-2 rounded-full px-4 py-2 text-sm font-bold"
-            :class="{ 'is-activating': isExploreAnimating }"
             to="/news"
-            @click.capture.prevent="handleExploreClick"
-            @transitionend="handleExploreAnimationEnd"
           >
             Explore
             <svg
